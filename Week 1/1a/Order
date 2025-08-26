@@ -1,0 +1,47 @@
+public class Order {
+    private MenuItem item1;
+    private MenuItem item2;
+    private MenuItem item3;
+    private double totalAmount;
+
+    public Order(){
+
+    }
+    public void addItem1(MenuItem item){
+        this.item1 = item;
+    }
+    public void addItem2(MenuItem item){
+        this.item2 = item;
+    }
+    public void addItem3(MenuItem item){
+        this.item3 = item;
+    }
+    public double calculateTotal(){
+        totalAmount = 0;
+        if (item1 != null){
+            totalAmount += item1.getPrice();
+        }
+        if (item2 != null){
+            totalAmount += item2.getPrice();
+        }
+        if (item3 != null){
+            totalAmount += item3.getPrice();
+        }
+        return totalAmount;
+
+
+    }
+    public void displayTotalAmount(){
+        if (item1 != null){
+            item1.displayItemInfo();
+        }
+        if (item2 != null){
+            item2.displayItemInfo();
+        }
+        if (item3 != null){
+            item3.displayItemInfo();
+        }
+
+        System.out.println("Total Amount: " + calculateTotal());
+    }
+}
