@@ -1,0 +1,17 @@
+public class Triangle implements Drawable {
+    private double base;
+    private double height;
+
+    public Triangle (double base, double height ){
+        this.base = base;
+        this.height = height;
+    }
+
+    public void draw(){
+        System.out.print("Drawing Triangle with base of " + base + " and height of " + height);
+    }
+
+    public double getArea(){
+        return base * height * 0.5;
+    }
+}
