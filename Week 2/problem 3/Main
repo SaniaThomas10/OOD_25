@@ -1,0 +1,19 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main (String[] args) {
+
+        List<Drawable> shapes=new ArrayList<>();
+
+        shapes.add(new Circle ( 5.0));
+        shapes.add(new Rectangle (4.0,6.0));
+        shapes.add(new Triangle (4.0, 6.0));
+
+        for (Drawable shape : shapes ){
+            shape.draw();
+            System.out.println("Area " + shape.getArea());
+            System.out.println("----");
+        }
+    }
+}
