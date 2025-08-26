@@ -1,0 +1,5 @@
+interface Drawable {
+    //two methods "draw()" and "getArea()"
+    void draw();
+    double getArea();
+}
