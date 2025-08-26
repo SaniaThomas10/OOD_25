@@ -1,0 +1,19 @@
+public class Rectangle implements  Drawable {
+    private double width;
+    private double height;
+
+    public Rectangle (double width, double height){
+        this.width = width;
+        this.height = height;
+
+    }
+
+    public void draw(){
+        System.out.println("Draw a Rectangle with the width of " + width + " and the height of " + height);
+
+    }
+    public double getArea(){
+        return width * height;
+    }
+
+}
