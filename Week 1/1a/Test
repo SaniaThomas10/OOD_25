@@ -1,0 +1,32 @@
+public class Test {
+    public static void main(String[] args) {
+        // Make cafe
+        Cafe myCafe = new Cafe();
+
+        // make menu items
+        MenuItem cappuccino = new MenuItem("Cappuccino", 3.50, "Beverage");
+        MenuItem sandwich = new MenuItem("Club Sandwich", 6.75, "Food");
+        MenuItem muffin = new MenuItem("Blueberry Muffin", 2.25, "Dessert");
+
+        // Add menu items
+        myCafe.addMenuItem1(cappuccino);
+        myCafe.addMenuItem2(sandwich);
+        myCafe.addMenuItem3(muffin);
+
+        // cafe menu
+        System.out.println("---- Welcome to the Cafe ----");
+        myCafe.displayMenu();
+
+        // new order
+        Order order1 = new Order();
+        order1.addItem1(cappuccino);
+        order1.addItem2(muffin);
+
+        // Place the order in the cafe
+        myCafe.placeOrder(order1);
+
+        // order details
+        System.out.println("\n---- Order Details ----");
+        order1.displayTotalAmount();
+    }
+}
