@@ -1,0 +1,88 @@
+package Week1.Spotify;
+
+import java.util.*;
+
+public class SpotifyMod {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Predefined songs by genre
+        Map<String, List<Song>> songDatabase = new HashMap<>();
+        songDatabase.put("pop", Arrays.asList(
+                new Song("Shake It Off", "Taylor Swift", 3.5),
+                new Song("Blinding Lights", "The Weeknd", 3.2),
+                new Song("Uptown Funk", "Bruno Mars", 4.1),
+                new Song("Levitating", "Dua Lipa", 3.4),
+                new Song("Havana", "Camila Cabello", 3.6)
+        ));
+
+        songDatabase.put("rock", Arrays.asList(
+                new Song("Bohemian Rhapsody", "Queen", 5.9),
+                new Song("Smells Like Teen Spirit", "Nirvana", 5.1),
+                new Song("Hotel California", "Eagles", 6.3),
+                new Song("Sweet Child O’ Mine", "Guns N’ Roses", 5.6),
+                new Song("Back in Black", "AC/DC", 4.2)
+        ));
+
+        songDatabase.put("jazz", Arrays.asList(
+                new Song("So What", "Miles Davis", 9.1),
+                new Song("Take Five", "Dave Brubeck", 5.2),
+                new Song("My Favorite Things", "John Coltrane", 13.4),
+                new Song("Round Midnight", "Thelonious Monk", 6.0),
+                new Song("Fly Me to the Moon", "Frank Sinatra", 2.8)
+        ));
+
+        // Songs by mood
+        Map<String, List<Song>> moodSongs = new HashMap<>();
+        moodSongs.put("happy", Arrays.asList(songDatabase.get("pop").get(0), songDatabase.get("pop").get(2)));
+        moodSongs.put("sad", Arrays.asList(songDatabase.get("jazz").get(0), songDatabase.get("rock").get(2)));
+        moodSongs.put("idk", Arrays.asList(songDatabase.get("jazz").get(1), songDatabase.get("pop").get(4)));
+
+        // Create user
+        User user = new User("Sania");
+
+        System.out.println("Welcome to SpotifyModified!");
+        System.out.println("Would you like to see: 1) All songs 2) Songs by genre 3) Songs by mood?");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1: // all songs
+                System.out.println("All Songs:");
+                for (List<Song> list : songDatabase.values()) {
+                    for (Song song : list) {
+                        System.out.println(song);
+                    }
+                }
+                break;
+            case 2: // by genre
+                System.out.println("Enter genre (pop/rock/jazz): ");
+                String genre = scanner.nextLine().toLowerCase();
+                if (songDatabase.containsKey(genre)) {
+                    System.out.println(genre.toUpperCase() + " songs:");
+                    for (Song song : songDatabase.get(genre)) {
+                        System.out.println(song);
+                    }
+                } else {
+                    System.out.println("Genre not found.");
+                }
+                break;
+            case 3: // by mood
+                System.out.println("Enter mood (happy/sad/idk): ");
+                String mood = scanner.nextLine().toLowerCase();
+                if (moodSongs.containsKey(mood)) {
+                    System.out.println("Songs for mood " + mood + ":");
+                    for (Song song : moodSongs.get(mood)) {
+                        System.out.println(song);
+                    }
+                } else {
+                    System.out.println("Mood not found.");
+                }
+                break;
+            default:
+                System.out.println("Invalid choice.");
+        }
+
+        scanner.close();
+    }
+}
