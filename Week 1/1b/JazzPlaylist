@@ -1,0 +1,7 @@
+package Week1.Spotify;
+
+public class JazzPlaylist extends BasePlaylist {
+    public JazzPlaylist(String name) {
+        super(name);
+    }
+}
