@@ -9,19 +9,19 @@ public class SpotifyMod {
         // Predefined songs by genre
         Map<String, List<Song>> songDatabase = new HashMap<>();
         songDatabase.put("pop", Arrays.asList(
-                new Song("Shake It Off", "Taylor Swift", 3.5),
-                new Song("Blinding Lights", "The Weeknd", 3.2),
-                new Song("Uptown Funk", "Bruno Mars", 4.1),
-                new Song("Levitating", "Dua Lipa", 3.4),
-                new Song("Havana", "Camila Cabello", 3.6)
+                new Song("Take a Walk", "Passion Pit", 3.5),
+                new Song("Stateside", "PinkPantheress", 3.2),
+                new Song("Midnight City", "M83", 4.1),
+                new Song("Little Talks", "Of Monsters and Man", 3.4),
+                new Song("Supercut", "Lorde", 3.6)
         ));
 
         songDatabase.put("rock", Arrays.asList(
-                new Song("Bohemian Rhapsody", "Queen", 5.9),
-                new Song("Smells Like Teen Spirit", "Nirvana", 5.1),
-                new Song("Hotel California", "Eagles", 6.3),
-                new Song("Sweet Child O’ Mine", "Guns N’ Roses", 5.6),
-                new Song("Back in Black", "AC/DC", 4.2)
+                new Song("Little Wonders", "Rob Thomas", 5.9),
+                new Song("Seems", "Queen Sarah Saturday", 3.7),
+                new Song("Iris", "The Goo Goo Dolls", 6.3),
+                new Song("You Found Me", "The Fray", 5.6),
+                new Song("Mr.Brightside", "The Killers", 4.2)
         ));
 
         songDatabase.put("jazz", Arrays.asList(
@@ -35,8 +35,8 @@ public class SpotifyMod {
         // Songs by mood
         Map<String, List<Song>> moodSongs = new HashMap<>();
         moodSongs.put("happy", Arrays.asList(songDatabase.get("pop").get(0), songDatabase.get("pop").get(2)));
-        moodSongs.put("sad", Arrays.asList(songDatabase.get("jazz").get(0), songDatabase.get("rock").get(2)));
-        moodSongs.put("idk", Arrays.asList(songDatabase.get("jazz").get(1), songDatabase.get("pop").get(4)));
+        moodSongs.put("sad", Arrays.asList(songDatabase.get("jazz").get(2), songDatabase.get("rock").get(3)));
+        moodSongs.put("idk", Arrays.asList(songDatabase.get("rock").get(1), songDatabase.get("pop").get(5)));
 
         // Create user
         User user = new User("Sania");
@@ -85,4 +85,5 @@ public class SpotifyMod {
 
         scanner.close();
     }
+}
 }
