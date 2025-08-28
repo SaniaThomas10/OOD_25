@@ -1,0 +1,45 @@
+package Week1.Spotify;
+
+public class SpotifyMain {
+    public static void main(String[] args) {
+            // Create a user
+        User user = new User("Sania");
+
+            // Create playlists
+        Playlist popPlaylist = user.createPlaylist("Top Pop", "Pop");
+        Playlist rockPlaylist = user.createPlaylist("Rock Legends", "Rock");
+        Playlist jazzPlaylist = user.createPlaylist("Jazz Classics", "Jazz");
+
+            // Create new songs
+        Song song1 = new Song("Levitating", "Dua Lipa", 3.3);
+        Song song2 = new Song("Watermelon Sugar", "Harry Styles", 2.9);
+        Song song3 = new Song("Stairway to Heaven", "Led Zeppelin", 8.0);
+        Song song4 = new Song("Hotel California", "Eagles", 6.3);
+        Song song5 = new Song("Autumn Leaves", "Chet Baker", 5.5);
+        Song song6 = new Song("So What", "Miles Davis", 9.0);
+
+            // Add songs to playlists
+        user.addSongToPlaylist(popPlaylist, song1);
+        user.addSongToPlaylist(popPlaylist, song2);
+        user.addSongToPlaylist(rockPlaylist, song3);
+        user.addSongToPlaylist(rockPlaylist, song4);
+        user.addSongToPlaylist(jazzPlaylist, song5);
+        user.addSongToPlaylist(jazzPlaylist, song6);
+
+            // Play all playlists
+        System.out.println("=== Pop Playlist ===");
+        popPlaylist.playAllSongs();
+
+        System.out.println("\n=== Rock Playlist ===");
+        rockPlaylist.playAllSongs();
+
+        System.out.println("\n=== Jazz Playlist ===");
+        jazzPlaylist.playAllSongs();
+
+            // Remove a song from Pop playlist
+        user.removeSongFromPlaylist(popPlaylist, song2);
+        System.out.println("\n=== Pop Playlist after removing a song ===");
+        popPlaylist.playAllSongs();
+    }
+}
+
