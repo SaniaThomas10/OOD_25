@@ -1,0 +1,36 @@
+package Week1.Spotify;
+
+import java.util.ArrayList;
+
+public abstract class BasePlaylist implements Playlist {
+    protected String name;
+    protected ArrayList<Song> songs = new ArrayList<>();
+
+    public BasePlaylist(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void addSong(Song song) {
+        songs.add(song);
+    }
+
+    @Override
+    public void removeSong(Song song) {
+        songs.remove(song);
+    }
+
+    @Override
+    public void playAllSongs() {
+        System.out.println("Playlist: " + name);
+        for (Song song : songs) {
+            System.out.println(" - " + song);
+        }
+    }
+}
+
