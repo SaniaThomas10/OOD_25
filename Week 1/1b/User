@@ -1,0 +1,46 @@
+package Week1.Spotify;
+
+import java.util.ArrayList;
+
+public class User {
+    private String username;
+    private ArrayList<Playlist> playlists;
+
+    public User(String username) {
+        this.username = username;
+        this.playlists = new ArrayList<>();
+    }
+
+    public Playlist createPlaylist(String name, String type) {
+        Playlist playlist = null;
+        if (type.equalsIgnoreCase("pop")) {
+            playlist = new PopPlaylist(name);
+        } else if (type.equalsIgnoreCase("rock")) {
+            playlist = new RockPlaylist(name);
+        } else if (type.equalsIgnoreCase("jazz")) {
+            playlist = new JazzPlaylist(name);
+        }
+
+        if (playlist != null) {
+            playlists.add(playlist);
+        }
+        return playlist;
+    }
+
+    public void deletePlaylist(Playlist playlist) {
+        playlists.remove(playlist);
+    }
+
+    public void addSongToPlaylist(Playlist playlist, Song song) {
+        playlist.addSong(song);
+    }
+
+    public void removeSongFromPlaylist(Playlist playlist, Song song) {
+        playlist.removeSong(song);
+    }
+
+    public ArrayList<Playlist> getPlaylists() {
+        return playlists;
+    }
+}
+
