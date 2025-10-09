@@ -1,0 +1,58 @@
+package HW1.Problem3;
+
+import java.util.List;
+
+public class Main {
+    private static final String SAMPLE_CSV = """
+        Category,Name,Price,Processor,RAM,Storage,Graphics,OS,Screen,Camera,Battery
+        Laptop,Acme Pro 14,$1099,Intel i7,16GB,512GB SSD,RTX 3050,Windows 11,,,
+        Laptop,Acme Air 13,999,Intel i5,8GB,256GB SSD,Intel Iris,Windows 11,,,
+        Smartphone,Acme X2,799,Octa 2.8GHz,8GB,256GB,,Android 14,6.5" OLED,50MP,4800mAh
+        Smartphone,Acme Mini,599,Hexa 2.2GHz,6GB,128GB,,Android 14,6.1" LCD,12MP,3500mAh
+        """;
+
+    public static void main(String[] args) {
+        Product customLaptop = new LaptopBuilder()
+                .name("My Dev Rig")
+                .processor("Intel i7-12700H")
+                .ram("16GB")
+                .storage("1TB SSD")
+                .gpu("RTX 4060")
+                .os("Windows 11 Pro")
+                .build();
+
+        Product customPhone = new SmartphoneBuilder()
+                .name("My Daily Driver")
+                .screen("6.7\" AMOLED 120Hz")
+                .processor("Octa 3.0GHz")
+                .camera("64MP + 12MP")
+                .battery("5000mAh")
+                .storage("256GB")
+                .build();
+
+        List<CsvRow> rows = CsvSimple.parse(SAMPLE_CSV);
+        SupplierToProductAdapter adapter = new SupplierToProductAdapter();
+
+        System.out.println("=== Customized Products (Builder; price fixed $800) ===");
+        System.out.println(customLaptop.pretty());
+        System.out.println(customPhone.pretty());
+
+        System.out.println("=== Default Products from Supplier CSV (Adapter) ===");
+        for (CsvRow r : rows) {
+            Product p = adapter.adapt(r);
+            System.out.println(p.pretty());
+        }
+
+        CsvRow firstLaptopRow = rows.stream()
+                .filter(r -> "Laptop".equalsIgnoreCase(r.get(0)))
+                .findFirst().orElse(null);
+        if (firstLaptopRow != null) {
+            Product csvLaptop = adapter.adapt(firstLaptopRow);
+            System.out.println("=== Comparison: Custom Laptop vs CSV Laptop ===");
+            System.out.println("-- Custom --");
+            System.out.println(customLaptop.pretty());
+            System.out.println("-- CSV --");
+            System.out.println(csvLaptop.pretty());
+        }
+    }
+}
