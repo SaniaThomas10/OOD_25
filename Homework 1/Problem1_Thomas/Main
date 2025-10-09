@@ -1,0 +1,39 @@
+package HW1.Problem1;
+
+public class Main {
+    public static void main(String[] args) {
+        WeddingPlanner planner = WeddingPlanner.getInstance();
+
+        WeddingPackage luxury = new WeddingPackageBuilder(WeddingType.LUXURY)
+                .venue("Grand Ballroom")
+                .catering("Gourmet Buffet")
+                .decorations("Elegant Flowers")
+                .photography("Professional Photography")
+                .build();
+
+        planner.planWedding(luxury);
+
+
+        WeddingPackage destination = new WeddingPackageBuilder(WeddingType.DESTINATION)
+                .venue("Beachside Resort")
+                .catering("Seafood Feast")
+                .decorations("Tropical Theme")
+                .photography("Drone + Local Photographer")
+                .build();
+
+        planner.planWedding(destination);
+
+
+        WeddingPackage traditional = new WeddingPackageBuilder(WeddingType.TRADITIONAL)
+                .venue("Classic Chapel")
+                .catering("Buffet Style")
+                .decorations("Floral Centerpieces")
+                .photography("Local Photographer")
+                .build();
+
+        planner.planWedding(traditional);
+
+
+        System.out.println("Singleton" + (planner == WeddingPlanner.getInstance()));
+    }
+}
