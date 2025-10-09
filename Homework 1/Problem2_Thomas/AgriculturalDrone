@@ -1,0 +1,7 @@
+package HW1.Problem2;
+
+public class AgriculturalDrone extends AbstractDrone{
+    public AgriculturalDrone(String manufacturer, int batteryMah, int rangeKm, String agFeature ) {
+        super(manufacturer, DroneType.AGRICULTURAL, batteryMah, rangeKm, "Ag Feature: " + agFeature);
+    }
+}
