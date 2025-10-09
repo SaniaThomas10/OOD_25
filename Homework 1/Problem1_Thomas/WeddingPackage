@@ -1,0 +1,50 @@
+package HW1.Problem1;
+
+public abstract class WeddingPackage {
+    protected Venue venue;
+    protected Catering catering;
+    protected Decorations decorations;
+    protected Photography photography;
+
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public void setVenue(Venue venue) {
+        this.venue = venue;
+    }
+
+    public Catering getCatering() {
+        return catering;
+    }
+
+    public void setCatering(Catering catering) {
+        this.catering = catering;
+    }
+
+    public Decorations getDecorations() {
+        return decorations;
+    }
+
+    public void setDecorations(Decorations decorations) {
+        this.decorations = decorations;
+    }
+
+    public Photography getPhotography() {
+        return photography;
+    }
+
+    public void setPhotography(Photography photography) {
+        this.photography = photography;
+    }
+
+    public abstract String label();
+
+    public String describe() {
+        return String.format("%s\n  Venue: %s\n  Catering: %s\n  Decorations: %s\n  Photography: %s\n", label(),
+                venue != null ? venue : "—",
+                catering != null ? catering : "—",
+                decorations != null ? decorations : "—",
+                photography != null ? photography : "—");
+    }
+}
