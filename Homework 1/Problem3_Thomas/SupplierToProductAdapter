@@ -1,0 +1,29 @@
+package HW1.Problem3;
+
+public class SupplierToProductAdapter {
+    public Product adapt(CsvRow row) {
+        String category = safe(row.get(0));
+        String name     = fallback(row.get(1), "Default Model");
+        double price    = parsePrice(row.get(2));
+
+        Product p = new Product(category, name, price);
+        p.addSpec("Processor", row.get(3));
+        p.addSpec("RAM",       row.get(4));
+        p.addSpec("Storage",   row.get(5));
+        p.addSpec("Graphics",  row.get(6));
+        p.addSpec("OS",        row.get(7));
+        p.addSpec("Screen",    row.get(8));
+        p.addSpec("Camera",    row.get(9));
+        p.addSpec("Battery",   row.get(10));
+        return p;
+    }
+
+    private static String safe(String s) { return s == null ? "" : s.trim(); }
+    private static String fallback(String s, String fb) { return (s == null || s.isBlank()) ? fb : s.trim(); }
+
+    private static double parsePrice(String s) {
+        if (s == null || s.isBlank()) return 0.0;
+        try { return Double.parseDouble(s.replaceAll("[^0-9.]", "")); }
+        catch (Exception e) { return 0.0; }
+    }
+}
