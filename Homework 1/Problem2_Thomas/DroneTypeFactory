@@ -1,0 +1,11 @@
+package HW1.Problem2;
+
+public class DroneTypeFactory {
+    public Drone create(DroneType type, ManufacturerDroneFactory manufacturerDroneFactory){
+        return switch(type) {
+            case SURVEILANCE -> manufacturerDroneFactory.createSurveillanceDrone();
+            case DELIVERY ->  manufacturerDroneFactory.createDeliveryDrone();
+            case AGRICULTURAL ->   manufacturerDroneFactory.createAgriculturalDrone();
+        };
+    }
+}
