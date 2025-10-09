@@ -1,0 +1,15 @@
+package HW1.Problem2;
+
+public interface Drone {
+    String getManufacturer();
+    DroneType getType();
+    int getBatteryMah();
+    int getRangeKm();
+    String getSpecialFeature();
+
+    default String specs() {
+        return String.format( "%s %s Drone — Battery: %d mAh, Range: %d km, Special: %s",
+                getManufacturer(), getType(), getBatteryMah(), getRangeKm(), getSpecialFeature()
+        );
+    }
+}
