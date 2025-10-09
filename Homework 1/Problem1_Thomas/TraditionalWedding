@@ -1,0 +1,15 @@
+package HW1.Problem1;
+
+public class TraditionalWedding extends WeddingPackage{
+    public  TraditionalWedding() {
+        this.venue = new Venue("Classic church");
+        this.catering = new Catering("Regular Buffet");
+        this.decorations = new Decorations("Floral");
+        this.photography = new Photography("Local");
+    }
+
+    @Override
+    public String label() {
+        return "Traditional WeddingPackage";
+    }
+}
