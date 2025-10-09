@@ -1,0 +1,12 @@
+package HW1.Problem1;
+
+public class WeddingFactory {
+    public WeddingPackage create(WeddingType type) {
+        return switch (type) {
+            case LUXURY -> new LuxuryWedding();
+            case TRADITIONAL -> new TraditionalWedding();
+            case DESTINATION -> new DestinationWedding();
+        };
+    }
+
+}
