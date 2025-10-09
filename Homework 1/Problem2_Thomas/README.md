@@ -14,3 +14,7 @@ The system can be easily extended by:
 - **Adding a new manufacturer** (e.g., ManufacturerC): create a new manufacturer factory implementing the same interface with its own specs.  
 
 This design makes it possible to scale without changing the existing codebase significantly.  
+
+![0](https://github.com/user-attachments/assets/e391f404-7397-41e7-ac29-cb7e0540e3a4)
+
+
