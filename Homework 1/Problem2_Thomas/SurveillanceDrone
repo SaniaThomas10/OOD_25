@@ -1,0 +1,7 @@
+package HW1.Problem2;
+
+public class SurveillanceDrone extends AbstractDrone{
+    public SurveillanceDrone(String manufacturer, int batteryMah, int rangeKm, String cameraQuality) {
+        super(manufacturer,DroneType.SURVEILANCE, batteryMah, rangeKm, "Camera: " + cameraQuality);
+    }
+}
