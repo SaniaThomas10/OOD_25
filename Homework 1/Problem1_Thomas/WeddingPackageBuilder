@@ -1,0 +1,43 @@
+package HW1.Problem1;
+
+public class WeddingPackageBuilder {
+    private final WeddingFactory factory = new WeddingFactory();
+    private final WeddingType type;
+
+    private Venue venue;
+    private Catering catering;
+    private Decorations decorations;
+    private Photography photography;
+
+    public WeddingPackageBuilder(WeddingType type) {
+        this.type = type;
+    }
+    public WeddingPackageBuilder catering(String option){
+        this.catering = new Catering(option);
+        return this;
+    }
+    public WeddingPackageBuilder decorations(String style){
+        this.decorations = new Decorations(style);
+        return this;
+    }
+    public WeddingPackageBuilder photography(String pkg){
+        this.photography = new Photography(pkg);
+        return this;
+    }
+    public WeddingPackageBuilder venue(String name){
+        this.venue = venue;
+        return this;
+    }
+
+    public WeddingPackage build(){
+        WeddingPackage pkg = factory.create(type);
+
+        if (venue != null) pkg.setVenue(venue);
+        if (catering != null) pkg.setCatering(catering);
+        if (decorations != null) pkg.setDecorations(decorations);
+        if (photography != null) pkg.setPhotography(photography);
+
+        return pkg;
+
+    }
+}
