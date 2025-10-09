@@ -1,0 +1,18 @@
+package HW1.Problem1;
+
+public class Photography {
+    private final String packageName;
+
+    public Photography(String packageName){
+        this.packageName = packageName;
+
+    }
+    public String getPackageName(){
+        return packageName;
+    }
+
+    @Override
+    public String toString() {
+        return packageName;
+    }
+}
