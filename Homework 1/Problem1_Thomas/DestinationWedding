@@ -1,0 +1,16 @@
+package HW1.Problem1;
+
+public class DestinationWedding extends WeddingPackage{
+    public DestinationWedding() {
+        this.venue = new Venue("Beach Resort");
+        this.catering = new Catering("Seafood");
+        this.decorations = new Decorations("Tropical");
+        this.photography = new Photography("International Professial");
+    }
+
+    @Override
+    public String label(){
+        return "Destination Wedding";
+    }
+
+}
