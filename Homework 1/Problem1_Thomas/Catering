@@ -1,0 +1,17 @@
+package HW1.Problem1;
+
+public class Catering {
+    private final String option;
+
+    public Catering (String option){
+        this.option = option;
+    }
+    public String getOption(){
+        return option;
+    }
+
+    @Override
+    public String toString() {
+        return option;
+    }
+}
