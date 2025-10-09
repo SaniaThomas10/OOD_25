@@ -1,0 +1,5 @@
+package HW1.Problem1;
+
+public enum WeddingType {
+    LUXURY, TRADITIONAL, DESTINATION
+}
