@@ -1,0 +1,16 @@
+package HW1.Problem1;
+
+public class WeddingPlanner {
+    private static final WeddingPlanner INSTANCE = new WeddingPlanner();
+
+    private WeddingPlanner() {
+    }
+
+    public static WeddingPlanner getInstance() {
+        return INSTANCE;
+    }
+
+    public void planWedding(WeddingPackage pkg){
+        System.out.println("Planning: " + pkg.label());
+    }
+}
