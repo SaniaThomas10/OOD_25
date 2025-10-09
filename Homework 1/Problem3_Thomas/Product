@@ -1,0 +1,35 @@
+package HW1.Problem3;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Product {
+    private final String category;
+    private final String name;
+    private double price;
+    private final List<String> specs;
+
+    public Product(String category, String name, double price) {
+        this.category = category;
+        this.name = name;
+        this.price = price;
+        this.specs = new ArrayList<>();
+    }
+
+    public String getCategory() { return category; }
+    public String getName() { return name; }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
+
+    public void addSpec(String label, String value) {
+        if (value != null && !value.isBlank()) specs.add(label + ": " + value);
+    }
+
+    public String pretty() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(category).append(" — ").append(name)
+                .append(" | Price: $").append(String.format("%.2f", price)).append("\nSpecs:\n");
+        for (String s : specs) sb.append("  ").append(s).append("\n");
+        return sb.toString();
+    }
+}
