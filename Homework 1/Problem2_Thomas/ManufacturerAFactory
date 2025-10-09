@@ -1,0 +1,25 @@
+package HW1.Problem2;
+
+public class ManufacturerAFactory implements ManufacturerDroneFactory{
+
+    @Override
+    public SurveillanceDrone createSurveillanceDrone() {
+        return new SurveillanceDrone(manufacturerName(), 4000, 50, "4K KDR");
+
+    }
+
+    @Override
+    public DeliveryDrone createDeliveryDrone() {
+        return new DeliveryDrone(manufacturerName(), 4500, 45, "Up to 3 kg");
+    }
+
+    @Override
+    public AgriculturalDrone createAgriculturalDrone() {
+        return new AgriculturalDrone(manufacturerName(), 4200, 55, "Wide-Area Sprayer");
+    }
+
+    @Override
+    public String manufacturerName() {
+        return "ManufacturerA";
+    }
+}
