@@ -1,0 +1,27 @@
+package HW1.Problem2;
+
+public class Main {
+    public static void main(String[] args) {
+        DroneTypeFactory typeFactory = new DroneTypeFactory();
+
+        ManufacturerDroneFactory manA = new ManufacturerAFactory();
+        Drone aSurv = typeFactory.create(DroneType.SURVEILANCE, manA);
+        Drone aDel = typeFactory.create(DroneType.DELIVERY, manA);
+        Drone aAgr = typeFactory.create(DroneType.AGRICULTURAL, manA);
+
+        ManufacturerDroneFactory manB = new ManufacturerBFactory();
+        Drone bSurv = typeFactory.create(DroneType.SURVEILANCE, manB);
+        Drone bDel = typeFactory.create(DroneType.DELIVERY, manB);
+        Drone bAgr = typeFactory.create(DroneType.AGRICULTURAL, manB);
+
+        System.out.println("=== Manufacturer A Drones ===");
+        System.out.println(aSurv.specs());
+        System.out.println(aDel .specs());
+        System.out.println(aAgr.specs());
+
+        System.out.println("\n=== Manufacturer B Drones ===");
+        System.out.println(bSurv.specs());
+        System.out.println(bDel .specs());
+        System.out.println(bAgr.specs());
+    }
+}
