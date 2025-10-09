@@ -1,0 +1,38 @@
+package HW1.Problem2;
+
+public abstract class AbstractDrone implements Drone {
+    private final String manufacturer;
+    private final DroneType type;
+    private final int batteryMah;
+    private final int rangeKm;
+    private final String specialFeature;
+
+    protected AbstractDrone(
+            String manufacturer, DroneType type, int batteryMah, int rangeKm, String specialFeature){
+        this.manufacturer = manufacturer;
+        this.type = type;
+        this.batteryMah = batteryMah;
+        this.rangeKm = rangeKm;
+        this.specialFeature = specialFeature;
+    }
+    @Override
+    public String getManufacturer() {
+        return manufacturer;
+    }
+    @Override
+    public DroneType getType() {
+        return type;
+    }
+    @Override
+    public int getBatteryMah() {
+        return batteryMah;
+    }
+    @Override
+    public int getRangeKm() {
+        return rangeKm;
+    }
+    @Override
+    public String getSpecialFeature() {
+        return specialFeature;
+    }
+}
