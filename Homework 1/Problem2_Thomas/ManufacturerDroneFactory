@@ -1,0 +1,9 @@
+package HW1.Problem2;
+
+public interface ManufacturerDroneFactory {
+    SurveillanceDrone createSurveillanceDrone();
+    DeliveryDrone createDeliveryDrone();
+    AgriculturalDrone createAgriculturalDrone();
+
+    String manufacturerName();
+}
