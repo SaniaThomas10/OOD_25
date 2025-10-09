@@ -1,0 +1,7 @@
+package HW1.Problem2;
+
+public class DeliveryDrone extends AbstractDrone{
+    public DeliveryDrone(String manufacturer, int batteryMah, int rangeKm, String payloadCapasity) {
+        super(manufacturer, DroneType.DELIVERY, batteryMah, rangeKm, "Payload: " + payloadCapasity);
+    }
+}
