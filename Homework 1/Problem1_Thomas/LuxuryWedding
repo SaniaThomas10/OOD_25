@@ -1,0 +1,15 @@
+package HW1.Problem1;
+
+public class LuxuryWedding extends WeddingPackage{
+    public LuxuryWedding(){
+        this.venue = new Venue("Ballroom");
+        this.catering = new Catering("Luxury Buffet");
+        this.decorations = new Decorations("Elegant Flowers");
+        this.photography = new Photography("Professional");
+    }
+
+    @Override
+    public String label() {
+        return "Luxury Wedding Package";
+    }
+}
