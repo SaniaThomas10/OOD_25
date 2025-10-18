@@ -1,0 +1,23 @@
+public class Laptop extends Product {
+    private final String processor, ram, storage, graphics, os;
+
+    public Laptop(String name, double price, String processor, String ram, String storage, String graphics, String os) {
+        super("Laptop", name, price);
+        this.processor = processor;
+        this.ram = ram;
+        this.storage = storage;
+        this.graphics = graphics;
+        this.os = os;
+    }
+
+    @Override
+    public String specs() {
+        StringBuilder sb = new StringBuilder();
+        if (processor != null && !processor.isBlank()) sb.append("  Processor: ").append(processor).append("\n");
+        if (ram != null && !ram.isBlank()) sb.append("  RAM: ").append(ram).append("\n");
+        if (storage != null && !storage.isBlank()) sb.append("  Storage: ").append(storage).append("\n");
+        if (graphics != null && !graphics.isBlank()) sb.append("  Graphics: ").append(graphics).append("\n");
+        if (os != null && !os.isBlank()) sb.append("  OS: ").append(os).append("\n");
+        return sb.toString();
+    }
+}
