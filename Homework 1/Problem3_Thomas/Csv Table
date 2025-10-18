@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CsvTable {
+    public final String[] headers;
+    public final String[] headersNorm;
+    public final List<String[]> rows;
+
+    public CsvTable(String[] headers, List<String[]> rows) {
+        this.headers = headers;
+        this.headersNorm = normalize(headers);
+        this.rows = rows;
+    }
+
+    public static CsvTable parse(String csv) {
+        List<String[]> rows = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new StringReader(csv))) {
+            String header = br.readLine();
+            if (header == null) return new CsvTable(new String[0], rows);
+            String[] headers = split(header);
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.isBlank()) rows.add(split(line));
+            }
+            return new CsvTable(headers, rows);
+        } catch (Exception e) {
+            return new CsvTable(new String[0], rows);
+        }
+    }
+
+    private static String[] split(String line) {
+        return line.split("\\s*,\\s*");
+    }
+
+    private static String[] normalize(String[] arr) {
+        String[] out = new String[arr.length];
+        for (int i = 0; i < arr.length; i++) out[i] = norm(arr[i]);
+        return out;
+    }
+
+    public static String norm(String s) {
+        if (s == null) return "";
+        return s.replaceAll("[^A-Za-z0-9]", "").toLowerCase(); // drop spaces/punct, lowercase
+    }
+
+    public int indexOf(String logicalKey) {
+        String key = norm(logicalKey);
+        for (int i = 0; i < headersNorm.length; i++) {
+            if (headersNorm[i].equals(key)) return i;
+        }
+        return -1;
+    }
+}
