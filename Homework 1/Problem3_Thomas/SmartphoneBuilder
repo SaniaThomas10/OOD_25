@@ -3,22 +3,17 @@ package HW1.Problem3;
 public class SmartphoneBuilder {
     private static final double CUSTOM_PRICE = 800.0;
     private String name = "Custom Smartphone";
-    private String screen, cpu, camera, battery, storage;
+    private String screen, processor, camera, battery, storage, os;
 
-    public SmartphoneBuilder name(String n)     { this.name = n;   return this; }
-    public SmartphoneBuilder screen(String s)   { this.screen = s; return this; }
-    public SmartphoneBuilder processor(String p){ this.cpu = p;    return this; }
-    public SmartphoneBuilder camera(String c)   { this.camera = c; return this; }
-    public SmartphoneBuilder battery(String b)  { this.battery = b;return this; }
-    public SmartphoneBuilder storage(String s)  { this.storage = s;return this; }
+    public SmartphoneBuilder name(String v) { name = v; return this; }
+    public SmartphoneBuilder screen(String v) { screen = v; return this; }
+    public SmartphoneBuilder processor(String v) { processor = v; return this; }
+    public SmartphoneBuilder camera(String v) { camera = v; return this; }
+    public SmartphoneBuilder battery(String v) { battery = v; return this; }
+    public SmartphoneBuilder storage(String v) { storage = v; return this; }
+    public SmartphoneBuilder os(String v) { os = v; return this; }
 
-    public Product build() {
-        Product p = new Product("Smartphone", name, CUSTOM_PRICE);
-        p.addSpec("Screen", screen);
-        p.addSpec("Processor", cpu);
-        p.addSpec("Camera", camera);
-        p.addSpec("Battery", battery);
-        p.addSpec("Storage", storage);
-        return p;
+    public Smartphone build() {
+        return new Smartphone(name, CUSTOM_PRICE, screen, processor, camera, battery, storage, os);
     }
 }
