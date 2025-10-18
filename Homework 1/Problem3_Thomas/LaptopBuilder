@@ -3,22 +3,16 @@ package HW1.Problem3;
 public class LaptopBuilder {
     private static final double CUSTOM_PRICE = 800.0;
     private String name = "Custom Laptop";
-    private String cpu, ram, storage, gpu, os;
+    private String processor, ram, storage, graphics, os;
 
-    public LaptopBuilder name(String n)      { this.name = n; return this; }
-    public LaptopBuilder processor(String c) { this.cpu = c;  return this; }
-    public LaptopBuilder ram(String r)       { this.ram = r;  return this; }
-    public LaptopBuilder storage(String s)   { this.storage = s; return this; }
-    public LaptopBuilder gpu(String g)       { this.gpu = g;  return this; }
-    public LaptopBuilder os(String o)        { this.os = o;   return this; }
+    public LaptopBuilder name(String v) { name = v; return this; }
+    public LaptopBuilder processor(String v) { processor = v; return this; }
+    public LaptopBuilder ram(String v) { ram = v; return this; }
+    public LaptopBuilder storage(String v) { storage = v; return this; }
+    public LaptopBuilder graphics(String v) { graphics = v; return this; }
+    public LaptopBuilder os(String v) { os = v; return this; }
 
-    public Product build() {
-        Product p = new Product("Laptop", name, CUSTOM_PRICE);
-        p.addSpec("Processor", cpu);
-        p.addSpec("RAM", ram);
-        p.addSpec("Storage", storage);
-        p.addSpec("Graphics", gpu);
-        p.addSpec("OS", os);
-        return p;
+    public Laptop build() {
+        return new Laptop(name, CUSTOM_PRICE, processor, ram, storage, graphics, os);
     }
 }
