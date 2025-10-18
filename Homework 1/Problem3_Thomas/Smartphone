@@ -1,0 +1,25 @@
+public class Smartphone extends Product {
+    private final String screen, processor, camera, battery, storage, os;
+
+    public Smartphone(String name, double price, String screen, String processor, String camera, String battery, String storage, String os) {
+        super("Smartphone", name, price);
+        this.screen = screen;
+        this.processor = processor;
+        this.camera = camera;
+        this.battery = battery;
+        this.storage = storage;
+        this.os = os;
+    }
+
+    @Override
+    public String specs() {
+        StringBuilder sb = new StringBuilder();
+        if (screen != null && !screen.isBlank()) sb.append("  Screen: ").append(screen).append("\n");
+        if (processor != null && !processor.isBlank()) sb.append("  Processor: ").append(processor).append("\n");
+        if (camera != null && !camera.isBlank()) sb.append("  Camera: ").append(camera).append("\n");
+        if (battery != null && !battery.isBlank()) sb.append("  Battery: ").append(battery).append("\n");
+        if (storage != null && !storage.isBlank()) sb.append("  Storage: ").append(storage).append("\n");
+        if (os != null && !os.isBlank()) sb.append("  OS: ").append(os).append("\n");
+        return sb.toString();
+    }
+}
