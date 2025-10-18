@@ -1,25 +1,54 @@
 package HW1.Problem3;
 
 public class SupplierToProductAdapter {
-    public Product adapt(CsvRow row) {
-        String category = safe(row.get(0));
-        String name     = fallback(row.get(1), "Default Model");
-        double price    = parsePrice(row.get(2));
 
-        Product p = new Product(category, name, price);
-        p.addSpec("Processor", row.get(3));
-        p.addSpec("RAM",       row.get(4));
-        p.addSpec("Storage",   row.get(5));
-        p.addSpec("Graphics",  row.get(6));
-        p.addSpec("OS",        row.get(7));
-        p.addSpec("Screen",    row.get(8));
-        p.addSpec("Camera",    row.get(9));
-        p.addSpec("Battery",   row.get(10));
-        return p;
+    public Product adapt(CsvTable table, String[] row) {
+        String cat = val(table, row, "Category", "ProductName"); // prefer Category; fallback to ProductName category inference
+        String name = val(table, row, "Name", "ProductName");
+        double price = parsePrice(val(table, row, "Price"));
+
+        String processor = val(table, row, "Processor");
+        String ram       = val(table, row, "RAM");
+        String storage   = val(table, row, "Storage");
+        String graphics  = val(table, row, "Integrated"); // GPU / integrated graphics
+        String os        = val(table, row, "Operating System");
+
+        if (isLaptop(cat, name)) {
+            return new Laptop(name, price, processor, ram, storage, graphics, os);
+        } else if (isPhone(cat, name)) {
+            String screen  = val(table, row, "Screen");   // may be empty in your sample; ok
+            String camera  = val(table, row, "Camera");
+            String battery = val(table, row, "Battery");
+            return new Smartphone(name, price, screen, processor, camera, battery, storage, os);
+        }
+        // Fallback: try to infer by presence of graphics field
+        boolean looksLaptop = !graphics.isBlank() || !os.isBlank();
+        if (looksLaptop) {
+            return new Laptop(name, price, processor, ram, storage, graphics, os);
+        }
+        return new Smartphone(name, price, "", processor, "", "", storage, os);
     }
 
-    private static String safe(String s) { return s == null ? "" : s.trim(); }
-    private static String fallback(String s, String fb) { return (s == null || s.isBlank()) ? fb : s.trim(); }
+    private static String val(CsvTable t, String[] row, String... headerNames) {
+        for (String h : headerNames) {
+            int idx = t.indexOf(h);
+            if (idx >= 0 && idx < row.length) {
+                String v = row[idx];
+                if (v != null && !v.isBlank()) return v.trim();
+            }
+        }
+        return "";
+    }
+
+    private static boolean isLaptop(String cat, String name) {
+        String s = (cat + " " + name).toLowerCase();
+        return s.contains("laptop");
+    }
+
+    private static boolean isPhone(String cat, String name) {
+        String s = (cat + " " + name).toLowerCase();
+        return s.contains("phone") || s.contains("smartphone");
+    }
 
     private static double parsePrice(String s) {
         if (s == null || s.isBlank()) return 0.0;
