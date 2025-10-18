@@ -1,58 +1,66 @@
 package HW1.Problem3;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     private static final String SAMPLE_CSV = """
-        Category,Name,Price,Processor,RAM,Storage,Graphics,OS,Screen,Camera,Battery
-        Laptop,Acme Pro 14,$1099,Intel i7,16GB,512GB SSD,RTX 3050,Windows 11,,,
-        Laptop,Acme Air 13,999,Intel i5,8GB,256GB SSD,Intel Iris,Windows 11,,,
-        Smartphone,Acme X2,799,Octa 2.8GHz,8GB,256GB,,Android 14,6.5" OLED,50MP,4800mAh
-        Smartphone,Acme Mini,599,Hexa 2.2GHz,6GB,128GB,,Android 14,6.1" LCD,12MP,3500mAh
+        ProductName,Processor,RAM,Storage,Integrated,Operating System,Price
+        Laptop Model A,Intel i5,8,256,,Windows 10,800
+        Laptop Model B,Intel i7,16,512,NVIDIA GTX,Windows 10,1500
+        Smartphone Model X,Qualcomm Snapdragon,6,128,N/A,Android,999.09
+        Smartphone Model Y,Apple A14 Bionic,4,64,N/A,iOS,1099
+        SmartphoneTR,Apple A14 Bionic,15,32,NVIDIA GTX,iOS,2099.99
         """;
 
     public static void main(String[] args) {
-        Product customLaptop = new LaptopBuilder()
+        Laptop customLaptop = new LaptopBuilder()
                 .name("My Dev Rig")
                 .processor("Intel i7-12700H")
                 .ram("16GB")
                 .storage("1TB SSD")
-                .gpu("RTX 4060")
+                .graphics("RTX 4060")
                 .os("Windows 11 Pro")
                 .build();
 
-        Product customPhone = new SmartphoneBuilder()
+        Smartphone customPhone = new SmartphoneBuilder()
                 .name("My Daily Driver")
                 .screen("6.7\" AMOLED 120Hz")
                 .processor("Octa 3.0GHz")
                 .camera("64MP + 12MP")
                 .battery("5000mAh")
                 .storage("256GB")
+                .os("Android 14")
                 .build();
 
-        List<CsvRow> rows = CsvSimple.parse(SAMPLE_CSV);
+        CsvTable table = CsvTable.parse(SAMPLE_CSV);
         SupplierToProductAdapter adapter = new SupplierToProductAdapter();
+        List<Product> defaults = new ArrayList<>();
+        for (String[] row : table.rows) defaults.add(adapter.adapt(table, row));
 
-        System.out.println("=== Customized Products (Builder; price fixed $800) ===");
+        System.out.println("=== Customized Products (Builder; fixed $800) ===");
         System.out.println(customLaptop.pretty());
         System.out.println(customPhone.pretty());
 
         System.out.println("=== Default Products from Supplier CSV (Adapter) ===");
-        for (CsvRow r : rows) {
-            Product p = adapter.adapt(r);
-            System.out.println(p.pretty());
-        }
+        for (Product p : defaults) System.out.println(p.pretty());
 
-        CsvRow firstLaptopRow = rows.stream()
-                .filter(r -> "Laptop".equalsIgnoreCase(r.get(0)))
+        Product firstCsvLaptop = defaults.stream()
+                .filter(p -> "Laptop".equalsIgnoreCase(p.getCategory()))
                 .findFirst().orElse(null);
-        if (firstLaptopRow != null) {
-            Product csvLaptop = adapter.adapt(firstLaptopRow);
+
+        if (firstCsvLaptop != null) {
             System.out.println("=== Comparison: Custom Laptop vs CSV Laptop ===");
             System.out.println("-- Custom --");
             System.out.println(customLaptop.pretty());
             System.out.println("-- CSV --");
-            System.out.println(csvLaptop.pretty());
+            System.out.println(firstCsvLaptop.pretty());
         }
     }
 }
+
+
+
+
+
+
