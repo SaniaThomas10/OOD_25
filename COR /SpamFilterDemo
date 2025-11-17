@@ -1,0 +1,48 @@
+public class SpamFilterDemo {
+
+    public static void main(String[] args) {
+        SpamFilter keywordFilter = new KeywordFilter();
+        SpamFilter senderFilter = new SenderFilter();
+        SpamFilter attachmentFilter = new AttachmentFilter();
+
+        keywordFilter.setNext(senderFilter);
+        senderFilter.setNext(attachmentFilter);
+
+        Email email1 = new Email(
+                "unknown@weirdsite.com",
+                "You won a prize!",
+                "Congratulations, you are a winner of a free lottery!",
+                false
+        );
+
+        Email email2 = new Email(
+                "friend@example.com",
+                "Homework question",
+                "Hey, can you help me with the Java assignment?",
+                true
+        );
+
+        Email email3 = new Email(
+                "teacher@ncf.edu",
+                "Class update",
+                "Reminder: project due next week.",
+                false
+        );
+
+        System.out.println("---- Checking email 1 ----");
+        processEmail(keywordFilter, email1);
+
+        System.out.println("\n---- Checking email 2 ----");
+        processEmail(keywordFilter, email2);
+
+        System.out.println("\n---- Checking email 3 ----");
+        processEmail(keywordFilter, email3);
+    }
+
+    private static void processEmail(SpamFilter firstFilter, Email email) {
+        boolean isSpam = firstFilter.filter(email);
+        if (!isSpam) {
+            System.out.println("Result: Email is NOT spam.");
+        }
+    }
+}
