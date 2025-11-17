@@ -1,0 +1,15 @@
+public class KeywordFilter extends SpamFilter {
+
+    @Override
+    public boolean filter(Email email) {
+        String content = (email.subject + " " + email.body).toLowerCase();
+
+        if (content.contains("winner") || content.contains("free") || content.contains("prize")) {
+            System.out.println("KeywordFilter: Email marked as SPAM (keywords detected).");
+            return true;
+        }
+
+        return super.filter(email);
+    }
+}
+
