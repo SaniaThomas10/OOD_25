@@ -1,0 +1,14 @@
+public abstract class SpamFilter {
+    private SpamFilter next;
+
+    public void setNext(SpamFilter next) {
+        this.next = next;
+    }
+
+    public boolean filter(Email email) {
+        if (next != null) {
+            return next.filter(email);
+        }
+        return false;
+    }
+}
