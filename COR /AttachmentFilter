@@ -1,0 +1,12 @@
+public class AttachmentFilter extends SpamFilter {
+
+    @Override
+    public boolean filter(Email email) {
+        if (email.hasAttachment) {
+            System.out.println("AttachmentFilter: Email marked as SPAM (contains attachment).");
+            return true;
+        }
+
+        return super.filter(email);
+    }
+}
