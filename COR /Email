@@ -1,0 +1,13 @@
+public class Email {
+    String from;
+    String subject;
+    String body;
+    boolean hasAttachment;
+
+    public Email(String from, String subject, String body, boolean hasAttachment) {
+        this.from = from;
+        this.subject = subject;
+        this.body = body;
+        this.hasAttachment = hasAttachment;
+    }
+}
