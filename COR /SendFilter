@@ -1,0 +1,12 @@
+public class SenderFilter extends SpamFilter {
+
+    @Override
+    public boolean filter(Email email) {
+        if (email.from.endsWith("@weirdsite.com") || email.from.endsWith("@spam.com")) {
+            System.out.println("SenderFilter: Email marked as SPAM (suspicious sender).");
+            return true;
+        }
+
+        return super.filter(email);
+    }
+}
