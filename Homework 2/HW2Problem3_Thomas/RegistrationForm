@@ -1,0 +1,160 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+
+public class RegistrationForm extends JFrame {
+
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JTextField emailField;
+    private JTextField phoneField;
+
+    private JLabel usernameError;
+    private JLabel passwordError;
+    private JLabel emailError;
+    private JLabel phoneError;
+
+    private AbstractValidator validatorChain;
+
+    public RegistrationForm() {
+        super("User Registration");
+
+        initValidators();
+        initUI();
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null); // center on screen
+    }
+
+    private void initValidators() {
+        AbstractValidator usernameValidator = new UsernameValidator();
+        AbstractValidator passwordValidator = new PasswordValidator();
+        AbstractValidator emailValidator = new EmailValidator();
+        AbstractValidator phoneValidator = new PhoneNumberValidator();
+
+        usernameValidator.setNext(passwordValidator)
+                .setNext(emailValidator)
+                .setNext(phoneValidator);
+
+        this.validatorChain = usernameValidator;
+    }
+
+    private void initUI() {
+        usernameField = new JTextField(15);
+        passwordField = new JPasswordField(15);
+        emailField = new JTextField(15);
+        phoneField = new JTextField(15);
+
+        usernameError = new JLabel(" ");
+        passwordError = new JLabel(" ");
+        emailError = new JLabel(" ");
+        phoneError = new JLabel(" ");
+
+        usernameError.setForeground(Color.RED);
+        passwordError.setForeground(Color.RED);
+        emailError.setForeground(Color.RED);
+        phoneError.setForeground(Color.RED);
+
+        JButton registerButton = new JButton("Register");
+        registerButton.addActionListener(this::onRegister);
+
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(4, 4, 4, 4);
+        gbc.anchor = GridBagConstraints.WEST;
+
+        int row = 0;
+
+        // Username
+        gbc.gridx = 0; gbc.gridy = row;
+        add(new JLabel("Username:"), gbc);
+        gbc.gridx = 1;
+        add(usernameField, gbc);
+        row++;
+        gbc.gridx = 1; gbc.gridy = row;
+        add(usernameError, gbc);
+        row++;
+
+        // Password
+        gbc.gridx = 0; gbc.gridy = row;
+        add(new JLabel("Password:"), gbc);
+        gbc.gridx = 1;
+        add(passwordField, gbc);
+        row++;
+        gbc.gridx = 1; gbc.gridy = row;
+        add(passwordError, gbc);
+        row++;
+
+        // Email
+        gbc.gridx = 0; gbc.gridy = row;
+        add(new JLabel("Email:"), gbc);
+        gbc.gridx = 1;
+        add(emailField, gbc);
+        row++;
+        gbc.gridx = 1; gbc.gridy = row;
+        add(emailError, gbc);
+        row++;
+
+        // Phone
+        gbc.gridx = 0; gbc.gridy = row;
+        add(new JLabel("Phone (optional):"), gbc);
+        gbc.gridx = 1;
+        add(phoneField, gbc);
+        row++;
+        gbc.gridx = 1; gbc.gridy = row;
+        add(phoneError, gbc);
+        row++;
+
+        // Button
+        gbc.gridx = 1; gbc.gridy = row;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(registerButton, gbc);
+    }
+
+    private void clearErrors() {
+        usernameError.setText(" ");
+        passwordError.setText(" ");
+        emailError.setText(" ");
+        phoneError.setText(" ");
+    }
+
+    private void onRegister(ActionEvent e) {
+        clearErrors();
+
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+        String email = emailField.getText();
+        String phone = phoneField.getText();
+
+        UserRegistration registration = new UserRegistration(username, password, email, phone);
+
+        try {
+            validatorChain.validate(registration);
+            JOptionPane.showMessageDialog(this, "Registration successful!");
+        } catch (ValidationException ex) {
+            switch (ex.getFieldName()) {
+                case "username":
+                    usernameError.setText(ex.getMessage());
+                    break;
+                case "password":
+                    passwordError.setText(ex.getMessage());
+                    break;
+                case "email":
+                    emailError.setText(ex.getMessage());
+                    break;
+                case "phone":
+                    phoneError.setText(ex.getMessage());
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, ex.getMessage(),
+                            "Validation Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new RegistrationForm().setVisible(true));
+    }
+}
+
