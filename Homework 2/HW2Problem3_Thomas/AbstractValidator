@@ -1,0 +1,18 @@
+public abstract class AbstractValidator {
+
+    private AbstractValidator next;
+
+    public AbstractValidator setNext(AbstractValidator next) {
+        this.next = next;
+        return next;
+    }
+
+    public void validate(UserRegistration registration) throws ValidationException {
+        handle(registration);
+        if (next != null) {
+            next.validate(registration);
+        }
+    }
+
+    protected abstract void handle(UserRegistration registration) throws ValidationException;
+}
