@@ -1,0 +1,22 @@
+public class StatisticalPrediction extends HurricanePredictionTemplate {
+
+    @Override
+    protected void fetchData() {
+        System.out.println("[Statistical] Fetching historical hurricane data from database...");
+    }
+
+    @Override
+    protected void preprocessData() {
+        System.out.println("[Statistical] Cleaning and aggregating historical records...");
+    }
+
+    @Override
+    protected void applyPredictionModel() {
+        System.out.println("[Statistical] Running statistical regression model...");
+    }
+
+    @Override
+    protected void postprocessResults() {
+        System.out.println("[Statistical] Saving statistical prediction report to file...");
+    }
+}
