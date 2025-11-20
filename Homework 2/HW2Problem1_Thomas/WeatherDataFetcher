@@ -1,0 +1,6 @@
+public class WeatherDataFetcher {
+
+    public void fetchData() {
+        System.out.println("[Command] Fetching weather data (receiver: WeatherDataFetcher)...");
+    }
+}
