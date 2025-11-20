@@ -1,0 +1,13 @@
+public class PredictionCommand implements Command {
+
+    private final PredictionModel model;
+
+    public PredictionCommand(PredictionModel model) {
+        this.model = model;
+    }
+
+    @Override
+    public void execute() {
+        model.runModel();
+    }
+}
