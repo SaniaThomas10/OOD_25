@@ -1,0 +1,34 @@
+public class MainProblem1 {
+
+    public static void main(String[] args) {
+
+        // ----- TEMPLATE METHOD DEMO -----
+        System.out.println(">>> TEMPLATE METHOD: StatisticalPrediction");
+        HurricanePredictionTemplate statistical = new StatisticalPrediction();
+        statistical.predictHurricane();
+
+        System.out.println();
+
+        System.out.println(">>> TEMPLATE METHOD: MachineLearningPrediction");
+        HurricanePredictionTemplate ml = new MachineLearningPrediction();
+        ml.predictHurricane();
+
+        System.out.println();
+
+        // ----- COMMAND PATTERN DEMO -----
+        WeatherDataFetcher fetcher = new WeatherDataFetcher();
+        PredictionModel model = new PredictionModel();
+        ResultSaver saver = new ResultSaver();
+
+        Command fetchCommand = new FetchDataCommand(fetcher);
+        Command predictionCommand = new PredictionCommand(model);
+        Command saveCommand = new SaveResultsCommand(saver);
+
+        PredictionInvoker invoker = new PredictionInvoker();
+        invoker.addCommand(fetchCommand);
+        invoker.addCommand(predictionCommand);
+        invoker.addCommand(saveCommand);
+
+        invoker.executeCommands();
+    }
+}
