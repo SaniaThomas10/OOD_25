@@ -1,0 +1,19 @@
+public abstract class ProductComponent {
+
+    public String getName() {
+        throw new UnsupportedOperationException("getName not supported");
+    }
+
+    public double getPrice() {
+        throw new UnsupportedOperationException("getPrice not supported");
+    }
+
+    public void add(ProductComponent component) {
+        throw new UnsupportedOperationException("add not supported");
+    }
+
+    public void display() {
+        throw new UnsupportedOperationException("display not supported");
+    }
+}
+
