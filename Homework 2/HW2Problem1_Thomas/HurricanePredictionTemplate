@@ -1,0 +1,16 @@
+public abstract class HurricanePredictionTemplate {
+    
+    public final void predictHurricane() {
+        System.out.println("=== Starting hurricane prediction workflow ===");
+        fetchData();
+        preprocessData();
+        applyPredictionModel();
+        postprocessResults();
+        System.out.println("=== Hurricane prediction workflow finished ===");
+    }
+
+    protected abstract void fetchData();
+    protected abstract void preprocessData();
+    protected abstract void applyPredictionModel();
+    protected abstract void postprocessResults();
+}
