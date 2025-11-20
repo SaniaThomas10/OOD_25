@@ -1,0 +1,19 @@
+public class PhoneNumberValidator extends AbstractValidator {
+
+    @Override
+    protected void handle(UserRegistration registration) throws ValidationException {
+        String phone = registration.getPhoneNumber();
+
+        // Optional field: only validate if not empty
+        if (phone == null || phone.trim().isEmpty()) {
+            System.out.println("Phone number empty - skipping (optional).");
+            return;
+        }
+
+        if (!phone.matches("\\d{10}")) {
+            throw new ValidationException("phone",
+                    "Phone number must have exactly 10 digits and contain only numbers.");
+        }
+        System.out.println("Phone number validated.");
+    }
+}
