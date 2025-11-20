@@ -1,0 +1,22 @@
+public class MachineLearningPrediction extends HurricanePredictionTemplate {
+
+    @Override
+    protected void fetchData() {
+        System.out.println("[ML] Fetching historical + real-time satellite and sensor data...");
+    }
+
+    @Override
+    protected void preprocessData() {
+        System.out.println("[ML] Normalizing data and extracting ML features...");
+    }
+
+    @Override
+    protected void applyPredictionModel() {
+        System.out.println("[ML] Running deep learning hurricane prediction model...");
+    }
+
+    @Override
+    protected void postprocessResults() {
+        System.out.println("[ML] Saving ML prediction and confidence scores to cloud storage...");
+    }
+}
