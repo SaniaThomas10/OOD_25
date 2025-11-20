@@ -1,0 +1,12 @@
+public class EmailValidator extends AbstractValidator {
+
+    @Override
+    protected void handle(UserRegistration registration) throws ValidationException {
+        String email = registration.getEmail();
+        if (email == null || !email.matches("^[^@]+@[^@]+\\.[^@]+$")) {
+            throw new ValidationException("email",
+                    "Email must be in the format username@domain.com.");
+        }
+        System.out.println("Email validated.");
+    }
+}
