@@ -1,0 +1,6 @@
+public class ResultSaver {
+
+    public void saveResults() {
+        System.out.println("[Command] Saving prediction results (receiver: ResultSaver)...");
+    }
+}
