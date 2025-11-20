@@ -1,0 +1,13 @@
+public class FetchDataCommand implements Command {
+
+    private final WeatherDataFetcher fetcher;
+
+    public FetchDataCommand(WeatherDataFetcher fetcher) {
+        this.fetcher = fetcher;
+    }
+
+    @Override
+    public void execute() {
+        fetcher.fetchData();
+    }
+}
