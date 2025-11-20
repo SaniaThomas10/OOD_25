@@ -1,0 +1,6 @@
+public class PredictionModel {
+
+    public void runModel() {
+        System.out.println("[Command] Running prediction model (receiver: PredictionModel)...");
+    }
+}
