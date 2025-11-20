@@ -1,0 +1,13 @@
+public class UsernameValidator extends AbstractValidator {
+
+    @Override
+    protected void handle(UserRegistration registration) throws ValidationException {
+        String username = registration.getUsername();
+        if (username == null || username.trim().isEmpty() || username.length() < 5) {
+            throw new ValidationException("username",
+                    "Username must be at least 5 characters and not empty.");
+        }
+        System.out.println("Username validated.");
+    }
+}
+
