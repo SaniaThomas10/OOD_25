@@ -1,0 +1,19 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class PredictionInvoker {
+
+    private final List<Command> commands = new ArrayList<>();
+
+    public void addCommand(Command command) {
+        commands.add(command);
+    }
+
+    public void executeCommands() {
+        System.out.println("=== Executing command-based task sequence ===");
+        for (Command command : commands) {
+            command.execute();
+        }
+        System.out.println("=== Command sequence finished ===");
+    }
+}
