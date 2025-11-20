@@ -1,0 +1,39 @@
+public class MainProblem2 {
+
+    public static void main(String[] args) {
+        // ----- PRODUCT STRUCTURE -----
+        Product laptop = new Product("Laptop", 999.99);
+        Product smartphone = new Product("Smartphone", 599.99);
+        Product tshirt = new Product("T-Shirt", 19.99);
+
+        Category electronics = new Category("Electronics");
+        electronics.add(laptop);
+        electronics.add(smartphone);
+
+        Category clothing = new Category("Clothing");
+        clothing.add(tshirt);
+
+        Category blackFridayDeals = new Category("Black Friday Deals");
+        blackFridayDeals.add(electronics);
+        blackFridayDeals.add(clothing);
+
+        blackFridayDeals.display();
+
+        System.out.println();
+
+        // ----- DEAL NOTIFICATION -----
+        Customer alice = new Customer("Alice");
+        Customer bob = new Customer("Bob");
+        Customer charlie = new Customer("Charlie");
+
+        BlackFridayDeals deals = new BlackFridayDeals();
+        deals.subscribe(alice);
+        deals.subscribe(bob);
+        // charlie is NOT subscribed (for the test case)
+
+        deals.notifyCustomers("50% off on all Electronics!");
+
+        // You should see Alice & Bob notified, but not Charlie
+    }
+}
+
