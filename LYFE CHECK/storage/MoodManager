@@ -1,0 +1,49 @@
+package storage;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * MoodManager.java
+ * Purpose: Manages setting, adding, and retrieving moods.
+ * Author: Sania Thomas
+ */
+public class MoodManager {
+
+    private static MoodData data = new MoodData();
+
+    static {
+        // Sample moods for previous days (today left empty)
+        data.moods.add(new MoodData.MoodEntry(LocalDateTime.now().minusDays(4), "Happy"));
+        data.moods.add(new MoodData.MoodEntry(LocalDateTime.now().minusDays(3), "Relaxed"));
+        data.moods.add(new MoodData.MoodEntry(LocalDateTime.now().minusDays(2), "Stressed"));
+        data.moods.add(new MoodData.MoodEntry(LocalDateTime.now().minusDays(1), "Excited"));
+    }
+
+    /** Sets or updates today's mood */
+    public static void setMood(String mood) {
+        LocalDateTime today = LocalDateTime.now();
+        if (!data.moods.isEmpty() && data.moods.get(0).date.toLocalDate().equals(today.toLocalDate())) {
+            data.moods.get(0).mood = mood; // update
+        } else {
+            data.moods.add(0, new MoodData.MoodEntry(today, mood));
+        }
+    }
+
+    public static void addMood(String mood) {
+        setMood(mood);
+    }
+
+    public static MoodData getData() {
+        return data;
+    }
+
+    public static List<String> getMoods() {
+        List<String> list = new ArrayList<>();
+        for (MoodData.MoodEntry e : data.moods) {
+            list.add(e.mood);
+        }
+        return list;
+    }
+}
