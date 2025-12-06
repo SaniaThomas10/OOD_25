@@ -21,6 +21,5 @@ LYFE CHECK is a personal wellness tracking Java application built with **JavaFX*
 
 ## Installation
 1. Ensure **Java 17+** and **JavaFX** are installed on your system.
-2. Clone the repository:
-   ```bash
-   git clone <repository-url>
+2. MY VM: --module-path "C:\Users\NCFLNR\.m2\repository\org\openjfx\javafx-controls\21.0.6;C:\Users\NCFLNR\.m2\repository\org\openjfx\javafx-fxml\21.0.6;C:\Users\NCFLNR\.m2\repository\org\openjfx\javafx-graphics\21.0.6;C:\Users\NCFLNR\.m2\repository\org\openjfx\javafx-base\21.0.6" --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.base 
+(EDIT YOURS TO MATCH YOUR PATH, BUT MAKE SURE TO HAVE THESE MODULES)
