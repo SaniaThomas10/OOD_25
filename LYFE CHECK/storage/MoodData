@@ -1,0 +1,25 @@
+package storage;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * MoodData.java
+ * Purpose: Holds a list of mood entries for tracking.
+ * Author: Sania Thomas
+ */
+public class MoodData {
+    public static class MoodEntry {
+        public LocalDateTime date;
+        public String mood;
+
+        public MoodEntry(LocalDateTime date, String mood) {
+            this.date = date;
+            this.mood = mood;
+        }
+    }
+
+    public List<MoodEntry> moods = new ArrayList<>();
+}
+
