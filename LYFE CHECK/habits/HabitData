@@ -1,0 +1,16 @@
+package habits;
+
+import java.util.List;
+
+/**
+ * HabitData.java
+ * Purpose: Stores a list of habit names. Can be used to save or load
+ *          habit information for the app.
+ * Author: Sania Thomas
+ */
+public class HabitData {
+
+    // List to hold the names of habits
+    public List<String> habits;
+
+}
