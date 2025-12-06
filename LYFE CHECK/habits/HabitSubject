@@ -1,0 +1,14 @@
+package habits;
+
+/**
+ * HabitSubject.java
+ * Purpose: Interface representing a subject that observers can subscribe to
+ * Author: Sania Thomas
+ */
+public interface HabitSubject {
+    void addObserver(HabitObserver obs);
+    void removeObserver(HabitObserver obs);
+    void notifyObservers();
+}
+
+
