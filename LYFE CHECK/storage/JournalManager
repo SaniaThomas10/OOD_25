@@ -1,0 +1,23 @@
+package storage;
+
+import java.time.LocalDateTime;
+
+/**
+ * JournalManager.java
+ * Purpose: Handles adding and retrieving journal entries.
+ * Author: Sania Thomas
+ */
+public class JournalManager {
+
+    private static JournalData data = new JournalData();
+
+    /** Adds a journal entry to the top of the list */
+    public static void addEntry(String text) {
+        JournalData.JournalEntry entry = new JournalData.JournalEntry(text, LocalDateTime.now());
+        data.entries.add(0, entry); // newest first
+    }
+
+    public static JournalData getData() {
+        return data;
+    }
+}
