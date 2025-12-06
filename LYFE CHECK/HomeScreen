@@ -1,0 +1,197 @@
+package ui;
+
+import habits.HabitList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import state.AppState;
+import state.NotStartedState;
+import state.SuggestionState;
+import storage.JournalManager;
+
+/**
+ * HomeScreen.java
+ * Purpose: Main screen of the LYFE CHECK app; displays today's habits, journal entry section, and suggestions.
+ * Author: Sania Thomas
+ */
+
+public class HomeScreen {
+
+    private Stage stage;          // Main stage for switching screens
+    private BorderPane root;      // Root layout container
+
+    private HabitList habitList;  // Manages list of habits
+    private VBox habitBox;        // UI container for habit buttons
+    private VBox suggestionBox;   // UI container for habit completion suggestions
+    private VBox journalBox;      // UI container for journal section
+    private TextArea journalInput; // Text area for entering journal entries
+
+    private AppState currentState; // Current state (NotStarted, InProgress, Completed, etc.)
+
+    public HomeScreen(Stage stage) {
+        this.stage = stage;
+        this.root = new BorderPane();
+        this.habitList = new HabitList();
+
+        // Set background color for the screen
+        root.setStyle("-fx-background-color: #001f3f;");
+
+        // Add navigation bar on the left side
+        NavigationBar navBar = new NavigationBar(screenName -> switchScreen(screenName));
+        root.setLeft(navBar.getView());
+
+        // Center layout container
+        VBox centerBox = new VBox(20);
+        centerBox.setPadding(new Insets(20));
+        centerBox.setAlignment(Pos.TOP_CENTER);
+
+        // Title label
+        Label titleLabel = new Label("LYFE CHECK");
+        titleLabel.setStyle("-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: white;");
+        centerBox.getChildren().add(titleLabel);
+
+        // Habit section UI setup
+        habitBox = new VBox(10);
+        habitBox.setPadding(new Insets(12));
+        habitBox.setStyle("-fx-background-color: #c1a3ff; -fx-border-radius: 12;");
+        habitBox.setAlignment(Pos.TOP_LEFT);
+
+        Label habitTitle = new Label("Today's Habits:");
+        habitTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        habitBox.getChildren().add(habitTitle);
+
+        // Input field for adding new habits
+        TextField habitInput = new TextField();
+        habitInput.setPromptText("Add a new habit...");
+
+        Button addHabitBtn = new Button("Add Habit");
+        addHabitBtn.setOnAction(e -> {
+            String habitName = habitInput.getText().trim();
+            if (!habitName.isEmpty()) {
+                habitList.addHabit(habitName); // Add habit to list
+                habitInput.clear();            // Clear input field
+                refreshHabits();               // Refresh displayed buttons
+            }
+        });
+
+        HBox habitInputBox = new HBox(10, habitInput, addHabitBtn);
+        habitBox.getChildren().add(habitInputBox);
+
+        // Suggestion box for when all habits are completed
+        suggestionBox = new VBox(5);
+        suggestionBox.setPadding(new Insets(10));
+        suggestionBox.setStyle("-fx-background-color: #d8c7ff; -fx-border-radius: 10;");
+        suggestionBox.setVisible(false);
+
+        // Journal section UI
+        journalBox = new VBox(10);
+        journalBox.setPadding(new Insets(10));
+        journalBox.setStyle("-fx-background-color: #f4ecff; -fx-border-radius: 10;");
+        journalBox.setAlignment(Pos.TOP_LEFT);
+
+        Label journalTitle = new Label("Quick Journal:");
+        journalInput = new TextArea();
+        journalInput.setPromptText("Write a quick note...");
+        journalInput.setPrefRowCount(3);
+
+        Button saveJournalBtn = new Button("Save Entry");
+        saveJournalBtn.setOnAction(e -> saveJournalEntry()); // Save journal entry
+
+        journalBox.getChildren().addAll(journalTitle, journalInput, saveJournalBtn);
+
+        // Add all sections to center container
+        centerBox.getChildren().addAll(habitBox, suggestionBox, journalBox);
+        root.setCenter(centerBox);
+
+        // Initialize state
+        setState(new NotStartedState());
+    }
+
+    /** Returns the root pane including navigation bar */
+    public BorderPane getView() {
+        return root;
+    }
+
+    /** Refreshes habit buttons, updating completed/uncompleted styles */
+    public void refreshHabits() {
+        habitBox.getChildren().removeIf(node -> node instanceof Button);
+
+        for (HabitList.Habit habit : habitList.getHabits()) {
+            Button habitBtn = new Button(habit.getName());
+            habitBtn.setPrefWidth(240);
+            habitBtn.setStyle(habit.isCompleted()
+                    ? "-fx-background-color: #b8ffa5;"   // Completed habits in green
+                    : "-fx-background-color: #bfefff;"); // Uncompleted habits in blue
+            habitBtn.setOnAction(e -> {
+                habit.toggleCompleted();                 // Toggle completed state
+                habitBtn.setStyle(habit.isCompleted()
+                        ? "-fx-background-color: #b8ffa5;"
+                        : "-fx-background-color: #bfefff;");
+                checkAllCompleted();                    // Check if all habits done
+            });
+            habitBox.getChildren().add(habitBtn);
+        }
+    }
+
+    /** Checks if all habits are completed and displays suggestions */
+    private void checkAllCompleted() {
+        if (habitList.allCompleted() && !habitList.getHabits().isEmpty()) {
+            setState(new SuggestionState());
+            suggestionBox.getChildren().clear();
+            suggestionBox.getChildren().add(new Label("All habits completed! Suggestions:"));
+            suggestionBox.getChildren().add(new Label("- Read a book"));
+            suggestionBox.getChildren().add(new Label("- Go for a walk"));
+            suggestionBox.getChildren().add(new Label("- Meditate"));
+            suggestionBox.getChildren().add(new Label("- Try a new hobby"));
+            suggestionBox.setVisible(true);
+        } else {
+            suggestionBox.setVisible(false);
+        }
+    }
+
+    /** Saves a journal entry */
+    private void saveJournalEntry() {
+        String entry = journalInput.getText().trim();
+        if (!entry.isEmpty()) {
+            JournalManager.addEntry(entry); // Add entry to storage
+            journalInput.clear();           // Clear input
+            showMessage("Journal entry saved!"); // Feedback to user
+        }
+    }
+
+    public HabitList getHabitList() {
+        return habitList;
+    }
+
+    /** Displays an alert with a message */
+    public void showMessage(String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, msg, ButtonType.OK);
+        alert.showAndWait();
+    }
+
+    /** Handles navigation between screens */
+    private void switchScreen(String screenName) {
+        switch (screenName.toLowerCase()) {
+            case "home":
+                stage.getScene().setRoot(this.getView());
+                refreshHabits();
+                break;
+            case "journal":
+                JournalScreen js = new JournalScreen(stage, this);
+                stage.getScene().setRoot(js.getView());
+                break;
+            case "mood":
+                MoodScreen ms = new MoodScreen(stage, this);
+                stage.getScene().setRoot(ms.getView());
+                break;
+        }
+    }
+
+    /** Sets current app state */
+    public void setState(AppState state) {
+        this.currentState = state;
+        state.enter(this);
+    }
+}
