@@ -1,0 +1,14 @@
+package state;
+
+import ui.HomeScreen;
+
+/**
+ * AppState.java
+ * Purpose: Abstract base class for the state of the HomeScreen
+ * Author: Sania Thomas
+ */
+public abstract class AppState {
+    public abstract void enter(HomeScreen screen);
+}
+
+
