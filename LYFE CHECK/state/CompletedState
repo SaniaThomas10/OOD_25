@@ -1,0 +1,19 @@
+package state;
+
+import ui.HomeScreen;
+
+/**
+ * CompletedState.java
+ * Purpose: Represents the state when all habits are completed
+ * Author: Sania Thomas
+ */
+public class CompletedState extends AppState {
+    @Override
+    public void enter(HomeScreen screen) {
+        // All habits completed logic handled in HomeScreen
+        screen.showMessage("All habits for today are completed!");
+    }
+}
+
+
+
