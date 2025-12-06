@@ -1,0 +1,37 @@
+package storage;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+/**
+ * DataStorage.java
+ * Purpose: Provides generic JSON save/load functionality using Gson
+ * Author: Sania Thomas
+ */
+public class DataStorage {
+
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    /** Saves an object as JSON to a file */
+    public static void save(Object obj, String filename) {
+        try (Writer writer = new FileWriter(filename)) {
+            gson.toJson(obj, writer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** Loads an object from a JSON file */
+    public static <T> T load(String filename, Class<T> type) {
+        if (!Files.exists(Paths.get(filename))) return null;
+
+        try (Reader reader = new FileReader(filename)) {
+            return gson.fromJson(reader, type);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+}
