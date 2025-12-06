@@ -1,0 +1,46 @@
+package ui;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+
+import java.util.function.Consumer;
+
+/**
+ * NavigationBar.java
+ * Purpose: Provides a vertical navigation bar to switch between Home, Journal, and Mood screens.
+ * Author: Sania Thomas
+ */
+public class NavigationBar {
+
+    private VBox view;
+
+    public NavigationBar(Consumer<String> onNavigate) {
+        view = new VBox(15);
+        view.setPadding(new Insets(20));
+        view.setStyle("-fx-background-color: #d4c4ff;"); // light purple background
+        view.setAlignment(Pos.TOP_LEFT);
+
+        // Home button
+        Button homeBtn = new Button("Home");
+        homeBtn.setPrefWidth(120);
+        homeBtn.setOnAction(e -> onNavigate.accept("home"));
+
+        // Journal button
+        Button journalBtn = new Button("Journal");
+        journalBtn.setPrefWidth(120);
+        journalBtn.setOnAction(e -> onNavigate.accept("journal"));
+
+        // Mood button
+        Button moodBtn = new Button("Mood");
+        moodBtn.setPrefWidth(120);
+        moodBtn.setOnAction(e -> onNavigate.accept("mood"));
+
+        view.getChildren().addAll(homeBtn, journalBtn, moodBtn);
+    }
+
+    public VBox getView() {
+        return view;
+    }
+}
