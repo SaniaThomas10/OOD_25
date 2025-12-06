@@ -1,0 +1,12 @@
+package habits;
+
+import java.util.List;
+
+/**
+ * HabitObserver.java
+ * Purpose: Observer interface for habit list updates
+ * Author: Sania Thomas
+ */
+public interface HabitObserver {
+    void update(List<HabitList.Habit> habits);
+}
