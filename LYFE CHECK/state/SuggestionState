@@ -1,0 +1,16 @@
+package state;
+
+import ui.HomeScreen;
+
+/**
+ * SuggestionState.java
+ * Purpose: Represents the state when all habits are completed, ready to show suggestions
+ * Author: Sania Thomas
+ */
+public class SuggestionState extends AppState {
+    @Override
+    public void enter(HomeScreen screen) {
+        // Suggestions handled automatically in HomeScreen.checkAllCompleted()
+    }
+}
+
