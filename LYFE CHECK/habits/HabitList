@@ -1,0 +1,62 @@
+package habits;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * HabitList.java
+ * Purpose: Manages a list of Habit objects and notifies observers on changes.
+ * Author: Sania Thomas
+ */
+public class HabitList {
+    private List<Habit> habits;
+    private List<HabitObserver> observers;
+
+    public HabitList() {
+        this.habits = new ArrayList<>();
+        this.observers = new ArrayList<>();
+    }
+
+    /** Inner class representing a habit in the list */
+    public static class Habit {
+        private String name;
+        private boolean completed;
+
+        public Habit(String name) {
+            this.name = name;
+            this.completed = false;
+        }
+
+        public String getName() { return name; }
+        public boolean isCompleted() { return completed; }
+        public void toggleCompleted() { this.completed = !this.completed; }
+    }
+
+    /** Adds a habit and notifies observers */
+    public void addHabit(String name) {
+        habits.add(new Habit(name));
+        notifyObservers();
+    }
+
+    public List<Habit> getHabits() { return habits; }
+
+    /** Checks if all habits are completed */
+    public boolean allCompleted() {
+        for (Habit h : habits) {
+            if (!h.isCompleted()) return false;
+        }
+        return !habits.isEmpty();
+    }
+
+    /** Observer registration */
+    public void registerObserver(HabitObserver observer) {
+        observers.add(observer);
+    }
+
+    /** Notify observers when habits change */
+    public void notifyObservers() {
+        for (HabitObserver obs : observers) {
+            obs.update(habits);
+        }
+    }
+}
