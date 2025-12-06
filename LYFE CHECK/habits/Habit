@@ -1,0 +1,31 @@
+package habits;
+
+/**
+ * Habit.java
+ * Purpose: Represents a single habit with completion state.
+ * Author: Sania Thomas
+ */
+public class Habit {
+    private String name;
+    private boolean completed = false;
+    private Runnable onComplete; // optional callback when habit is marked complete
+
+    public Habit(String name, Runnable onComplete) {
+        this.name = name;
+        this.onComplete = onComplete;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    /** Marks the habit as completed and triggers callback */
+    public void markCompleted() {
+        this.completed = true;
+        if (onComplete != null) onComplete.run();
+    }
+}
