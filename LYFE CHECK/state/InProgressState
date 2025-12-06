@@ -1,0 +1,18 @@
+package state;
+
+import ui.HomeScreen;
+
+/**
+ * InProgressState.java
+ * Purpose: Represents the state when some habits are completed but not all
+ * Author: Sania Thomas
+ */
+public class InProgressState extends AppState {
+    @Override
+    public void enter(HomeScreen screen) {
+        screen.showMessage("Some habits are in progress. Keep going!");
+    }
+}
+
+
+
