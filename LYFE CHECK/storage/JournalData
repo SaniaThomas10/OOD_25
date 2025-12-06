@@ -1,0 +1,26 @@
+package storage;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * JournalData.java
+ * Purpose: Holds a list of journal entries with timestamp.
+ * Author: Sania Thomas
+ */
+public class JournalData {
+    public List<JournalEntry> entries = new ArrayList<>();
+
+    public static class JournalEntry {
+        public String text;
+        public LocalDateTime timestamp;
+
+        public JournalEntry() {}
+        public JournalEntry(String text, LocalDateTime timestamp) {
+            this.text = text;
+            this.timestamp = timestamp;
+        }
+    }
+}
+
