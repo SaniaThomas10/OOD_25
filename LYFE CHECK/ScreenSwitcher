@@ -1,0 +1,12 @@
+package ui;
+
+/**
+ * ScreenSwitcher.java
+ * Functional interface for switching screens
+ * Author: Sania Thomas
+ */
+@FunctionalInterface
+public interface ScreenSwitcher {
+    void switchScreen(String screenName);
+}
+
