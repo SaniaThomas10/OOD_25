@@ -1,0 +1,214 @@
+package ui;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.chart.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import storage.MoodData;
+import storage.MoodManager;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+/**
+ * MoodScreen.java
+ * Purpose: Allows users to track daily mood and view mood trend chart.
+ * Author: Sania Thomas
+ */
+public class MoodScreen {
+
+    private final Stage stage;         // Main stage
+    private final HomeScreen homeScreen; // Reference to HomeScreen
+    private final BorderPane root;     // Root layout
+    private final VBox historyBox;     // Container for mood history
+    private final LineChart<String, Number> chart; // Chart displaying last 7 days
+
+    public MoodScreen(Stage stage, HomeScreen homeScreen) {
+        this.stage = stage;
+        this.homeScreen = homeScreen;
+        this.root = new BorderPane();
+
+        // Set light navy blue background
+        root.setStyle("-fx-background-color: #334466;");
+
+        // Navigation bar
+        NavigationBar nav = new NavigationBar(screen -> navigate(screen));
+        root.setLeft(nav.getView());
+
+        // Center container
+        VBox center = new VBox(20);
+        center.setPadding(new Insets(20));
+        center.setAlignment(Pos.TOP_CENTER);
+
+        // Title label
+        Label title = new Label("Mood Tracker");
+        title.setStyle("-fx-font-size: 32px; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        // Mood buttons for user selection
+        HBox moodButtons = new HBox(15);
+        moodButtons.setAlignment(Pos.CENTER);
+
+        String[] moods = {"Happy", "Excited", "Relaxed", "Stressed", "Sad"};
+        for (String m : moods) {
+            Button b = new Button(m);
+            b.setPrefWidth(120);
+            b.setStyle("-fx-background-color: #d4c4ff; -fx-font-weight: bold; -fx-text-fill: white;");
+            b.setOnAction(e -> saveMood(m)); // Save mood when clicked
+            moodButtons.getChildren().add(b);
+        }
+
+        // History section
+        Label historyTitle = new Label("Mood History");
+        historyTitle.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        historyBox = new VBox(8);
+        historyBox.setPadding(new Insets(15));
+        historyBox.setStyle("-fx-background-color: #f7ecff; -fx-border-radius: 10;");
+        historyBox.setPrefHeight(180);
+
+        // Chart label
+        Label chartLabel = new Label("Mood Trend (Last 7 Days)");
+        chartLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        chart = buildMoodChart();
+
+        center.getChildren().addAll(title, moodButtons, historyTitle, historyBox, chartLabel, chart);
+        root.setCenter(center);
+
+        refreshHistory();
+    }
+
+    /** Returns root pane including navigation bar */
+    public BorderPane getView() {
+        return root;
+    }
+
+    /** Handles navigation between screens */
+    private void navigate(String screenName) {
+        switch (screenName.toLowerCase()) {
+            case "home":
+                stage.getScene().setRoot(homeScreen.getView());
+                homeScreen.refreshHabits();
+                break;
+            case "journal":
+                stage.getScene().setRoot(new JournalScreen(stage, homeScreen).getView());
+                break;
+            case "mood":
+                stage.getScene().setRoot(this.getView());
+                break;
+        }
+    }
+
+    /** Saves user's selected mood for today */
+    private void saveMood(String mood) {
+        MoodManager.setMood(mood);
+        refreshHistory(); // Refresh history and chart
+    }
+
+    /** Refresh mood history UI */
+    private void refreshHistory() {
+        historyBox.getChildren().clear();
+        MoodData data = MoodManager.getData();
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("MMM dd");
+
+        if (data.moods.isEmpty()) {
+            historyBox.getChildren().add(new Label("No moods recorded yet."));
+        } else {
+            for (MoodData.MoodEntry e : data.moods) {
+                Label lbl = new Label(df.format(e.date) + ": " + e.mood);
+                lbl.setTextFill(Color.BLACK); // Dark color for contrast
+                historyBox.getChildren().add(lbl);
+            }
+        }
+
+        updateChart();
+    }
+
+    /** Updates chart for the last 7 days including today */
+    private void updateChart() {
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        chart.getData().clear();
+
+        // Map of last 7 days with placeholder
+        Map<LocalDate, String> last7Days = new LinkedHashMap<>();
+        LocalDate today = LocalDate.now();
+        for (int i = 6; i >= 0; i--) {
+            last7Days.put(today.minusDays(i), "No mood yet");
+        }
+
+        // Fill actual moods
+        for (MoodData.MoodEntry entry : MoodManager.getData().moods) {
+            LocalDate date = entry.date.toLocalDate();
+            if (last7Days.containsKey(date)) {
+                last7Days.put(date, entry.mood);
+            }
+        }
+
+        // Convert moods to numeric values for plotting
+        for (Map.Entry<LocalDate, String> e : last7Days.entrySet()) {
+            int value = switch (e.getValue()) {
+                case "Happy" -> 5;
+                case "Excited" -> 4;
+                case "Relaxed" -> 3;
+                case "Stressed" -> 2;
+                case "Sad" -> 1;
+                default -> 0;
+            };
+            series.getData().add(new XYChart.Data<>(e.getKey().format(DateTimeFormatter.ofPattern("MMM dd")), value));
+        }
+
+        chart.getData().add(series);
+    }
+
+    /** Builds line chart with mood names on Y-axis */
+    private LineChart<String, Number> buildMoodChart() {
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Date");
+        xAxis.setTickLabelFill(Color.WHITE);
+        xAxis.setStyle("-fx-font-weight: bold;");
+
+        NumberAxis yAxis = new NumberAxis(0, 5, 1);
+        yAxis.setLabel("Mood");
+        yAxis.setTickLabelFill(Color.WHITE);
+        yAxis.setStyle("-fx-font-weight: bold;");
+
+        // Map numbers to mood names
+        yAxis.setTickLabelFormatter(new StringConverter<Number>() {
+            @Override
+            public String toString(Number object) {
+                return switch (object.intValue()) {
+                    case 1 -> "Sad";
+                    case 2 -> "Stressed";
+                    case 3 -> "Relaxed";
+                    case 4 -> "Excited";
+                    case 5 -> "Happy";
+                    default -> "";
+                };
+            }
+
+            @Override
+            public Number fromString(String string) {
+                return switch (string) {
+                    case "Sad" -> 1;
+                    case "Stressed" -> 2;
+                    case "Relaxed" -> 3;
+                    case "Excited" -> 4;
+                    case "Happy" -> 5;
+                    default -> 0;
+                };
+            }
+        });
+
+        LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
+        lineChart.setLegendVisible(false);
+        lineChart.setPrefHeight(250);
+        lineChart.setStyle("-fx-background-color: transparent;"); // Transparent chart
+        return lineChart;
+    }
+}
