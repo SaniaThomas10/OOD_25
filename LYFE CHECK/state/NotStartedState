@@ -1,0 +1,15 @@
+package state;
+
+import ui.HomeScreen;
+
+/**
+ * NotStartedState.java
+ * Purpose: Represents the state when no habits are started yet
+ * Author: Sania Thomas
+ */
+public class NotStartedState extends AppState {
+    @Override
+    public void enter(HomeScreen screen) {
+        screen.showMessage("You haven't started any habits today!");
+    }
+}
