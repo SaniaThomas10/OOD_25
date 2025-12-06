@@ -1,0 +1,143 @@
+package ui;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import storage.JournalData;
+import storage.JournalManager;
+import storage.MoodManager;
+
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+/**
+ * JournalScreen.java
+ * Purpose: Displays the journal interface where users can write entries and view history.
+ * Author: Sania Thomas
+ */
+public class JournalScreen {
+
+    private final Stage stage;           // Main stage
+    private final HomeScreen homeScreen; // Reference to HomeScreen for navigation
+    private final BorderPane root;       // Root layout
+    private final VBox entriesListBox;   // Container for displaying journal entries
+    private final TextArea journalInput; // Input area for new journal entries
+
+    public JournalScreen(Stage stage, HomeScreen homeScreen) {
+        this.stage = stage;
+        this.homeScreen = homeScreen;
+        this.root = new BorderPane();
+
+        // Background color
+        root.setStyle("-fx-background-color: #001f3f;");
+
+        // Navigation bar
+        NavigationBar nav = new NavigationBar(screen -> navigate(screen));
+        root.setLeft(nav.getView());
+
+        // Center container
+        VBox center = new VBox(16);
+        center.setPadding(new Insets(18));
+        center.setAlignment(Pos.TOP_CENTER);
+
+        // Title
+        Label title = new Label("Journal");
+        title.setStyle("-fx-font-size: 26px; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        // Journal input area
+        journalInput = new TextArea();
+        journalInput.setPromptText("Write a journal entry...");
+        journalInput.setPrefRowCount(5);
+        journalInput.setWrapText(true);
+
+        // Controls: Save & Clear buttons
+        HBox controls = new HBox(10);
+        controls.setAlignment(Pos.CENTER_LEFT);
+
+        Button saveBtn = new Button("Save Entry");
+        saveBtn.setOnAction(e -> saveEntry());
+
+        Button clearBtn = new Button("Clear");
+        clearBtn.setOnAction(e -> journalInput.clear());
+
+        controls.getChildren().addAll(saveBtn, clearBtn);
+
+        // History label
+        Label historyLabel = new Label("History");
+        historyLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        // Container for history entries
+        entriesListBox = new VBox(8);
+        entriesListBox.setPadding(new Insets(10));
+        entriesListBox.setStyle("-fx-background-color: #f7ecff; -fx-border-radius: 8;");
+        entriesListBox.setPrefHeight(300);
+
+        ScrollPane historyScroll = new ScrollPane(entriesListBox);
+        historyScroll.setFitToWidth(true);
+        historyScroll.setMaxHeight(320);
+
+        center.getChildren().addAll(title, journalInput, controls, historyLabel, historyScroll);
+        root.setCenter(center);
+
+        // Load previous journal entries
+        refreshEntriesUI();
+    }
+
+    /** Returns the root pane including navigation bar */
+    public BorderPane getView() {
+        return root;
+    }
+
+    /** Handles navigation between screens */
+    private void navigate(String screenName) {
+        switch (screenName.toLowerCase()) {
+            case "home":
+                stage.getScene().setRoot(homeScreen.getView());
+                homeScreen.refreshHabits();
+                break;
+            case "journal":
+                stage.getScene().setRoot(this.getView());
+                break;
+            case "mood":
+                MoodScreen ms = new MoodScreen(stage, homeScreen);
+                stage.getScene().setRoot(ms.getView());
+                break;
+        }
+    }
+
+    /** Saves the journal entry with optional current mood label */
+    private void saveEntry() {
+        String text = journalInput.getText().trim();
+        if (text.isEmpty()) return;
+
+        // Attach the most recent mood if available
+        List<String> moods = MoodManager.getMoods();
+        String mood = moods.isEmpty() ? "User" : moods.get(0);
+
+        JournalManager.addEntry("[" + mood + "] " + text);
+        journalInput.clear();
+        refreshEntriesUI(); // Update history UI
+    }
+
+    /** Refresh the journal history display */
+    private void refreshEntriesUI() {
+        entriesListBox.getChildren().clear();
+
+        List<JournalData.JournalEntry> entries = JournalManager.getData().entries;
+
+        if (entries.isEmpty()) {
+            entriesListBox.getChildren().add(new Label("No journal entries yet."));
+            return;
+        }
+
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        for (JournalData.JournalEntry entry : entries) {
+            Label lbl = new Label("[" + df.format(entry.timestamp) + "] " + entry.text);
+            lbl.setWrapText(true);
+            entriesListBox.getChildren().add(lbl);
+        }
+    }
+}
